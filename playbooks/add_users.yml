@@ -1,0 +1,26 @@
+---
+
+- name: Create user and copy key
+  hosts: '{{ target }}'
+  become: yes
+  
+  tasks:
+  - name: Inclide vars
+    include_vars:
+      dir: ../vars/    
+      file: add_users.yaml
+
+ # Создаём пользователя
+  - name: Create user
+    ansible.builtin.user:
+      name: '{{ name }}'
+      shell: '{{ shell }}'
+      group: '{{ group }}'
+      append: yes
+
+ # Добавляем ключ на сервер
+  - name: Set authorized key took from file
+    authorized_key:
+      user: '{{ name }}'
+      state: present
+      key: "{{ lookup('file','../files/authorized_keys/' + '/.ssh/'{{ name }}'.pub') }}"

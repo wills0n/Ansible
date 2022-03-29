@@ -1,0 +1,21 @@
+---
+
+ - name: Create group and copy file
+   hosts: '{{target}}'
+   become: yes
+
+   tasks:
+   - name: Create admins group
+     ansible.builtin.group:
+       name: admins
+       state: present
+       gid: 1001
+
+   - name: Copy sudoers file
+     ansible.builtin.copy:
+       src: /opt/ansible/files/sudo/admins
+       dest: /etc/sudoers.d/
+       owner: root
+       group: root
+       mode: '0644'
+

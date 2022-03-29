@@ -1,0 +1,15 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+  
+  - name: Make sure the current version of ‘sysstat’ is installed.
+    dnf:
+      name: 
+        - sysstat
+        - epel-release
+        - htop
+        - tmux
+      state: latest
+  
+ 
